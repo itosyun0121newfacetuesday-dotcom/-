@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>索引検索 - ネットワークスペシャリスト</title>
+<style>
+  :root {
+    --bg: #0e1420;
+    --panel: #141c2b;
+    --line: #253247;
+    --text: #dbe4ef;
+    --sub: #8fa3bf;
+    --accent: #4fd1c5;
+    --mono: 'JetBrains Mono', 'Menlo', 'Consolas', monospace;
+    --sans: 'Inter', -apple-system, 'Hiragino Kaku Gothic ProN', 'Yu Gothic', sans-serif;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+  }
+  main {
+    width: 100%;
+    max-width: 760px;
+    padding: 48px 24px 100px 24px;
+  }
+  .eyebrow {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    color: var(--accent);
+    text-transform: uppercase;
+  }
+  h1 {
+    font-size: 22px;
+    margin: 6px 0 26px 0;
+    font-weight: 700;
+  }
+  .search-wrap {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 14px 16px;
+    position: sticky;
+    top: 16px;
+    z-index: 5;
+  }
+  .search-wrap svg { flex-shrink: 0; opacity: 0.6; }
+  .search-wrap input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: var(--text);
+    font-size: 17px;
+    font-family: var(--sans);
+  }
+  .meta-row {
+    margin-top: 12px;
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--sub);
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 18px;
+    font-size: 14.5px;
+  }
+  thead th {
+    text-align: left;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    color: var(--sub);
+    text-transform: uppercase;
+    padding: 0 4px 8px 4px;
+    border-bottom: 1px solid var(--line);
+  }
+  tbody td {
+    padding: 10px 4px;
+    border-bottom: 1px solid var(--line);
+    vertical-align: top;
+  }
+  tbody tr:hover { background: rgba(255,255,255,0.03); }
+  .word-cell { font-weight: 600; }
+  .page-cell {
+    font-family: var(--mono);
+    color: var(--accent);
+    white-space: nowrap;
+    text-align: right;
+    width: 120px;
+  }
+  mark {
+    background: rgba(79,209,197,0.35);
+    color: inherit;
+    border-radius: 2px;
+    padding: 0 1px;
+  }
+  .empty {
+    color: var(--sub);
+    font-family: var(--mono);
+    font-size: 13px;
+    padding: 50px 0;
+    text-align: center;
+  }
+  .hint {
+    color: var(--sub);
+    font-size: 13px;
+    padding: 40px 0;
+    text-align: center;
+  }
+  ::-webkit-scrollbar { width: 8px; }
+  ::-webkit-scrollbar-thumb { background: var(--line); border-radius: 4px; }
+</style>
+</head>
+<body>
+<main>
+  <div class="eyebrow">Network Specialist / Index Search</div>
+  <h1>用語索引検索(単語 → ページ数)</h1>
+
+  <div class="search-wrap">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+    <input id="searchInput" type="text" placeholder="単語を入力して検索(例: BGP、DNS、認証)" autofocus>
+  </div>
+  <div class="meta-row" id="metaRow">全 903 件を収録</div>
+
+  <div id="content"></div>
+</main>
+
+<script id="index-data" type="application/json">[{"word": "1000BASE-LX", "pages": "7"}, {"word": "1000BASE-SX", "pages": "7"}, {"word": "1000BASE-T", "pages": "7"}, {"word": "10GBASE-SR", "pages": "7"}, {"word": "10GBASE-T", "pages": "7"}, {"word": "2.5GBASE-T", "pages": "7"}, {"word": "25番ポートブロック", "pages": "386"}, {"word": "4ウェイハンドシェーク", "pages": "408, 469"}, {"word": "587番ポート", "pages": "389"}, {"word": "5GBASE-T", "pages": "7"}, {"word": "AAAAレコード", "pages": "196"}, {"word": "AAAモデル", "pages": "401"}, {"word": "ABR", "pages": "145"}, {"word": "ACK", "pages": "81"}, {"word": "ACK制御方式", "pages": "23, 24"}, {"word": "AEAD", "pages": "342, 353, 453"}, {"word": "AES", "pages": "340"}, {"word": "AES-GCM", "pages": "342, 353"}, {"word": "AH", "pages": "428"}, {"word": "ALPN", "pages": "458"}, {"word": "ANY接続", "pages": "23"}, {"word": "ANY接続拒否", "pages": "34"}, {"word": "AP", "pages": "36"}, {"word": "Application-Layer Protocol Negotiation", "pages": "458"}, {"word": "ARP", "pages": "67, 94"}, {"word": "ARPキャッシュ", "pages": "94"}, {"word": "ARPテーブル", "pages": "94"}, {"word": "AS", "pages": "132"}, {"word": "as-override", "pages": "178"}, {"word": "ASオーバーライド", "pages": "177"}, {"word": "AS_PATH", "pages": "161, 176"}, {"word": "AS境界ルータ", "pages": "148"}, {"word": "ASパスプリペンド", "pages": "176"}, {"word": "Aレコード", "pages": "195"}, {"word": "Bcc", "pages": "210"}, {"word": "BDR", "pages": "142"}, {"word": "BFD", "pages": "296, 431"}, {"word": "BGP", "pages": "160"}, {"word": "BGP anycast", "pages": "169"}, {"word": "BGP Flowspec", "pages": "180, 397"}, {"word": "BGPピア", "pages": "127, 165"}, {"word": "BGPピアリング", "pages": "127"}, {"word": "BIND", "pages": "190"}, {"word": "Bluetooth", "pages": "16"}, {"word": "BPDU", "pages": "271"}, {"word": "BPDUフレーム", "pages": "12"}, {"word": "BSS", "pages": "22, 28"}, {"word": "BSSカラー", "pages": "28"}, {"word": "BUM", "pages": "39"}, {"word": "CA", "pages": "355"}, {"word": "CBC", "pages": "341, 470"}, {"word": "CBC-MAC", "pages": "353"}, {"word": "Cc", "pages": "210"}, {"word": "CCMP", "pages": "469"}, {"word": "ccTLD", "pages": "188"}, {"word": "CDN", "pages": "233, 322"}, {"word": "CE", "pages": "56"}, {"word": "ChaCha20", "pages": "339"}, {"word": "Change Cipher Specプロトコル", "pages": "448"}, {"word": "CHAP", "pages": "399"}, {"word": "Child SA", "pages": "416"}, {"word": "class", "pages": "194"}, {"word": "CNAMEレコード", "pages": "196"}, {"word": "COMMUNITYパスアトリビュート", "pages": "180"}, {"word": "CONNECTメソッド", "pages": "215, 370"}, {"word": "Cookie", "pages": "219, 284"}, {"word": "CoS", "pages": "44, 311"}, {"word": "CSMA/CA", "pages": "16, 23"}, {"word": "CSMD/CD", "pages": "8"}, {"word": "CSR", "pages": "356"}, {"word": "CTR", "pages": "341, 469"}, {"word": "CWR", "pages": "81"}, {"word": "Date", "pages": "209"}, {"word": "DELETEメソッド", "pages": "215"}, {"word": "DFS", "pages": "21"}, {"word": "DHCP", "pages": "37, 110"}, {"word": "DHCPスヌーピング", "pages": "113"}, {"word": "DHCPリレーエージェント", "pages": "112"}, {"word": "DHE", "pages": "349, 453"}, {"word": "Diffie-Hellman鍵交換方式", "pages": "347, 420"}, {"word": "DiffServ", "pages": "72"}, {"word": "DIX規格イーサネット", "pages": "6"}, {"word": "DKIM", "pages": "381"}, {"word": "DKIMレコード", "pages": "383"}, {"word": "DKIM-Signatureフィールド", "pages": "382"}, {"word": "DMARC", "pages": "378"}, {"word": "DNS", "pages": "184, 187"}, {"word": "DNS Amp攻撃", "pages": "397"}, {"word": "DNS機能", "pages": "294"}, {"word": "DNSキャッシュ汚染", "pages": "202, 395"}, {"word": "DNSキャッシュポイズニング", "pages": "202"}, {"word": "DNSラウンドロビン", "pages": "197"}, {"word": "DNSリフレクタ攻撃", "pages": "396"}, {"word": "DomainKey-Signature", "pages": "382"}, {"word": "DoS攻撃", "pages": "392"}, {"word": "DR", "pages": "141, 281"}, {"word": "DSR", "pages": "128, 281"}, {"word": "DSフィールド", "pages": "311"}, {"word": "DTE", "pages": "14"}, {"word": "Dynamic DNS", "pages": "201"}, {"word": "EAP", "pages": "400, 405, 468"}, {"word": "EAP-PEAP", "pages": "405, 468"}, {"word": "EAP-TLS", "pages": "406, 468"}, {"word": "eBGPピア", "pages": "165"}, {"word": "ECC", "pages": "343"}, {"word": "ECDHE", "pages": "349, 453"}, {"word": "ECE", "pages": "81"}, {"word": "ECN", "pages": "81, 317"}, {"word": "EDNS-Client-Subnet", "pages": "327"}, {"word": "EGP", "pages": "132"}, {"word": "ESP", "pages": "428"}, {"word": "ESS", "pages": "22"}, {"word": "ESSID", "pages": "22"}, {"word": "EUC", "pages": "484"}, {"word": "FAQ", "pages": "485"}, {"word": "FCS", "pages": "12"}, {"word": "FC-SAN", "pages": "53"}, {"word": "FIN", "pages": "82"}, {"word": "Forward Security", "pages": "423, 453"}, {"word": "FQDN", "pages": "189"}, {"word": "From", "pages": "210"}, {"word": "FTTH", "pages": "54"}, {"word": "FTTx", "pages": "54"}, {"word": "GE-PON", "pages": "54"}, {"word": "GET メソッド", "pages": "215"}, {"word": "GMK", "pages": "408"}, {"word": "Gratuitous ARP", "pages": "67, 98, 229, 286"}, {"word": "GRE", "pages": "410"}, {"word": "GRE over Ipsec", "pages": "413, 440"}, {"word": "GTK", "pages": "408"}, {"word": "gTLD", "pages": "188"}, {"word": "HEAD メソッド", "pages": "215"}, {"word": "Hello パケット", "pages": "135"}, {"word": "HMAC", "pages": "353"}, {"word": "HoL ブロッキング", "pages": "212"}, {"word": "hosts ファイル", "pages": "190"}, {"word": "HTTP", "pages": "212"}, {"word": "HttpOnly", "pages": "219"}, {"word": "HTTP通信", "pages": "365"}, {"word": "HTTPメッセージ", "pages": "214"}, {"word": "IANA", "pages": "10, 74"}, {"word": "IC カード認証", "pages": "351"}, {"word": "IDS", "pages": "372"}, {"word": "IEEE", "pages": "6"}, {"word": "IEEE802", "pages": "6"}, {"word": "IEEE802.11", "pages": "16"}, {"word": "IEEE802.11a/g/n混在環境", "pages": "2"}, {"word": "IEEE802.11i", "pages": "467"}, {"word": "IEEE802.15", "pages": "16"}, {"word": "IEEE802.1ax", "pages": "288"}, {"word": "IEEE802.1p", "pages": "321"}, {"word": "IEEE802.1Q", "pages": "321"}, {"word": "IEEE802.1X", "pages": "2, 36, 404, 467"}, {"word": "IEEE802.2", "pages": "13"}, {"word": "IEEE802.3規格", "pages": "12"}, {"word": "IGMP", "pages": "74"}, {"word": "IGP", "pages": "132"}, {"word": "IKE", "pages": "415, 417"}, {"word": "IKE SA", "pages": "415"}, {"word": "IKE_AUTH交換", "pages": "426"}, {"word": "IKE_SA_INIT交換", "pages": "425"}, {"word": "IKEv1", "pages": "419"}, {"word": "IKEv2", "pages": "423"}, {"word": "IMAP4", "pages": "207"}, {"word": "In-Reply-To", "pages": "210"}, {"word": "IP", "pages": "66, 71"}, {"word": "IP in IP", "pages": "409"}, {"word": "IPS", "pages": "374"}, {"word": "Ipsec", "pages": "413, 428"}, {"word": "IP-SAN", "pages": "53"}, {"word": "Ipsec SA", "pages": "416"}, {"word": "IPv6", "pages": "70"}, {"word": "IP-VPN網", "pages": "55"}, {"word": "IPアドレス", "pages": "74"}, {"word": "IPアドレス重複の検出", "pages": "112"}, {"word": "IPデータグラム", "pages": "76"}, {"word": "IPパケット", "pages": "75"}, {"word": "IPヘッダ", "pages": "72"}, {"word": "IPマスカレード", "pages": "116"}, {"word": "ISAKMP SA", "pages": "416"}, {"word": "iSCSI", "pages": "53"}, {"word": "ISM バンド", "pages": "20"}, {"word": "ITIL", "pages": "472"}, {"word": "ITサービス", "pages": "472"}, {"word": "IV", "pages": "341"}, {"word": "IX", "pages": "168"}, {"word": "ICMPフラッド攻撃", "pages": "392"}, {"word": "IT サービス", "pages": "472"}, {"word": "JPNIC", "pages": "189"}, {"word": "JPRS", "pages": "189"}, {"word": "KEEPALIVE", "pages": "181"}, {"word": "L2TP", "pages": "409, 435"}, {"word": "L2TP over Ipsec", "pages": "432, 435, 436"}, {"word": "L2フォワーディング方式", "pages": "464"}, {"word": "LACP", "pages": "268"}, {"word": "LAN関連のプロトコル/規格", "pages": "3"}, {"word": "LLC", "pages": "8"}, {"word": "LLC副層", "pages": "13"}, {"word": "LOCAL_PREF", "pages": "171, 175"}, {"word": "LSA", "pages": "135, 158"}, {"word": "LSB", "pages": "11"}, {"word": "LXC", "pages": "248"}, {"word": "MAC", "pages": "8, 446, 470"}, {"word": "MACアドレスフィルタリング", "pages": "34, 46"}, {"word": "MAIL TO", "pages": "206"}, {"word": "MED", "pages": "179"}, {"word": "Memcached", "pages": "285"}, {"word": "Message-ID", "pages": "209"}, {"word": "MH装置", "pages": "293"}, {"word": "MIB", "pages": "488"}, {"word": "MIME", "pages": "210"}, {"word": "MIMO", "pages": "17"}, {"word": "MITM攻撃", "pages": "347"}, {"word": "MP-BGP", "pages": "181"}, {"word": "MPLS", "pages": "55"}, {"word": "MPPE", "pages": "407"}, {"word": "MSB", "pages": "11"}, {"word": "MSS", "pages": "82"}, {"word": "MTA", "pages": "205"}, {"word": "MTU", "pages": "12, 71"}, {"word": "MU-MIMO", "pages": "18"}, {"word": "MUA", "pages": "205"}, {"word": "MXレコード", "pages": "196"}, {"word": "NAPT", "pages": "116"}, {"word": "NAT", "pages": "116"}, {"word": "NAT機能", "pages": "294"}, {"word": "NAT越え", "pages": "68, 117"}, {"word": "NATトラバーサル", "pages": "119, 434"}, {"word": "NBMA", "pages": "139"}, {"word": "NEXT_HOP", "pages": "172, 179"}, {"word": "NIC チーミング", "pages": "261, 264, 288"}, {"word": "NICの冗長化", "pages": "288"}, {"word": "NLRI", "pages": "175"}, {"word": "NS", "pages": "81"}, {"word": "NSレコード", "pages": "195"}, {"word": "NTP", "pages": "490"}, {"word": "nullインタフェース", "pages": "128"}, {"word": "OFDM", "pages": "18"}, {"word": "OFDMA", "pages": "18"}, {"word": "OLT", "pages": "55"}, {"word": "ONU", "pages": "55"}, {"word": "OP25B", "pages": "386"}, {"word": "OPTIONSメソッド", "pages": "215"}, {"word": "OSPF", "pages": "134"}, {"word": "OUI", "pages": "10"}, {"word": "owner", "pages": "194"}, {"word": "PAUSEフレーム", "pages": "45"}, {"word": "PCI Express", "pages": "261"}, {"word": "PE", "pages": "56"}, {"word": "PEAP", "pages": "400"}, {"word": "Perfect Forward Security", "pages": "423"}, {"word": "PFS", "pages": "423"}, {"word": "ping", "pages": "280"}, {"word": "ping コマンド", "pages": "106, 107, 486"}, {"word": "PKC", "pages": "343"}, {"word": "PKI", "pages": "357"}, {"word": "PMK", "pages": "35, 407, 469"}, {"word": "PoE、PoE+、PoE++", "pages": "47"}, {"word": "PON", "pages": "55"}, {"word": "Pop before SMTP", "pages": "385"}, {"word": "POP3", "pages": "205"}, {"word": "POSTメソッド", "pages": "215"}, {"word": "PPP", "pages": "434, 435"}, {"word": "Priority Queuing", "pages": "311"}, {"word": "Proxy ARP", "pages": "102"}, {"word": "PSH", "pages": "81"}, {"word": "PSK", "pages": "420, 453, 468"}, {"word": "PTK", "pages": "408"}, {"word": "PTRレコード", "pages": "195"}, {"word": "PUTメソッド", "pages": "215"}, {"word": "QoS制御", "pages": "310"}, {"word": "IPネットワークの~", "pages": "315"}, {"word": "イーサネットの~", "pages": "321"}, {"word": "RADIUS", "pages": "401"}, {"word": "RARP", "pages": "99, 229, 255"}, {"word": "RC4", "pages": "338"}, {"word": "RCPT TO", "pages": "206"}, {"word": "RDATA", "pages": "194"}, {"word": "Received", "pages": "209"}, {"word": "Redis", "pages": "285"}, {"word": "Reply-To", "pages": "210"}, {"word": "REST", "pages": "217"}, {"word": "Return-Path", "pages": "209"}, {"word": "RFC1027", "pages": "102"}, {"word": "RFC1042", "pages": "9, 14"}, {"word": "RFC1122", "pages": "9, 76"}, {"word": "RFC1323", "pages": "82"}, {"word": "RFC1912", "pages": "196"}, {"word": "RFC2131", "pages": "111"}, {"word": "RFC2136", "pages": "201"}, {"word": "RFC2284", "pages": "400"}, {"word": "RFC2474", "pages": "315"}, {"word": "RFC2865", "pages": "401"}, {"word": "RFC2866", "pages": "401"}, {"word": "RFC3022", "pages": "116"}, {"word": "RFC3031", "pages": "55"}, {"word": "RFC3046", "pages": "113"}, {"word": "RFC3580", "pages": "407"}, {"word": "RFC3986", "pages": "212"}, {"word": "RFC4302", "pages": "428"}, {"word": "RFC4303", "pages": "428"}, {"word": "RFC4305", "pages": "428"}, {"word": "RFC4918", "pages": "217"}, {"word": "RFC5227", "pages": "94, 98"}, {"word": "RFC5246", "pages": "445"}, {"word": "RFC5322", "pages": "209, 211"}, {"word": "RFC5358", "pages": "397"}, {"word": "RFC5798", "pages": "272, 274, 276"}, {"word": "RFC7230~7235", "pages": "212"}, {"word": "RFC7540~7541", "pages": "212"}, {"word": "RFC791", "pages": "72"}, {"word": "RFC792", "pages": "104"}, {"word": "RFC793", "pages": "78"}, {"word": "RFC826", "pages": "94"}, {"word": "RFC894", "pages": "9"}, {"word": "RIP", "pages": "133"}, {"word": "RPO", "pages": "267"}, {"word": "RSA暗号", "pages": "343"}, {"word": "RST", "pages": "81"}, {"word": "RSVP", "pages": "319"}, {"word": "RTO", "pages": "87"}, {"word": "RTP", "pages": "314"}, {"word": "RTS/CTS制御方式", "pages": "23, 26"}, {"word": "RTSP", "pages": "314"}, {"word": "RTT", "pages": "61, 92, 304, 325"}, {"word": "SA", "pages": "415"}, {"word": "SAE", "pages": "468"}, {"word": "SAP", "pages": "14"}, {"word": "Secure", "pages": "219"}, {"word": "Server Name Indication", "pages": "458"}, {"word": "Set-Cookieヘッダフィールド", "pages": "219"}, {"word": "SFD", "pages": "10"}, {"word": "SHA-2", "pages": "352"}, {"word": "SIP", "pages": "52"}, {"word": "SIPサーバ", "pages": "52"}, {"word": "SLA", "pages": "59, 485"}, {"word": "SLD", "pages": "188"}, {"word": "SMB", "pages": "60"}, {"word": "SMTP", "pages": "205"}, {"word": "SMTP-AUTH", "pages": "385, 389"}, {"word": "SNAP", "pages": "14"}, {"word": "SNI", "pages": "458"}, {"word": "SNMPエージェント", "pages": "46"}, {"word": "SOAレコード", "pages": "195"}, {"word": "SPD", "pages": "415"}, {"word": "SPF", "pages": "378"}, {"word": "SPFレコード", "pages": "380"}, {"word": "SPI", "pages": "417, 430"}, {"word": "SPOC", "pages": "482"}, {"word": "SSID", "pages": "22"}, {"word": "SSID隠蔽", "pages": "34"}, {"word": "SSL", "pages": "219"}, {"word": "SSL-VPN", "pages": "458"}, {"word": "sTLD", "pages": "188"}, {"word": "STP", "pages": "271"}, {"word": "Subject", "pages": "210"}, {"word": "SYN", "pages": "82"}, {"word": "SYNフラッド攻撃", "pages": "393"}, {"word": "TCP", "pages": "66, 77"}, {"word": "TCP/IPオフロード機能", "pages": "261"}, {"word": "TCPコネクション", "pages": "84"}, {"word": "TCPセグメント", "pages": "83"}, {"word": "TCP接続リセット", "pages": "92"}, {"word": "TCP通信", "pages": "362"}, {"word": "TCP通信のスループット", "pages": "92"}, {"word": "TCPの53番ポート", "pages": "198"}, {"word": "TCPヘッダ", "pages": "78"}, {"word": "TLD", "pages": "188"}, {"word": "TLS", "pages": "400, 445"}, {"word": "TLS1.2", "pages": "448"}, {"word": "TLS1.3", "pages": "452"}, {"word": "TLSアクセラレーション機能", "pages": "285"}, {"word": "TLS通信", "pages": "370"}, {"word": "ToS", "pages": "72"}, {"word": "ToSフィールド", "pages": "311, 315"}, {"word": "traceroute コマンド", "pages": "107"}, {"word": "TRACEメソッド", "pages": "215"}, {"word": "TTL", "pages": "73, 107, 193"}, {"word": "type", "pages": "194"}, {"word": "UBE", "pages": "377"}, {"word": "UCE", "pages": "377"}, {"word": "UDP", "pages": "66, 77"}, {"word": "UDP通信", "pages": "362"}, {"word": "UDPデータグラム", "pages": "84"}, {"word": "UDPフラッド攻撃", "pages": "394"}, {"word": "UDPヘッダ", "pages": "83"}, {"word": "UDPヘッダの挿入", "pages": "118"}, {"word": "URG", "pages": "81"}, {"word": "URI", "pages": "213"}, {"word": "URL", "pages": "213"}, {"word": "URLの書式", "pages": "215"}, {"word": "URLリライティング", "pages": "214, 221"}, {"word": "URN", "pages": "213"}, {"word": "UTM", "pages": "363"}, {"word": "VLAN", "pages": "3, 40"}, {"word": "VLAN ID", "pages": "44"}, {"word": "VLANタグフレーム", "pages": "41"}, {"word": "VLANフレーム", "pages": "41"}, {"word": "VoIP", "pages": "120"}, {"word": "VoIP GW", "pages": "52"}, {"word": "VPN通信", "pages": "55, 57, 431"}, {"word": "VPNパススルー", "pages": "119, 434"}, {"word": "VRF", "pages": "129"}, {"word": "VRID", "pages": "272"}, {"word": "VRRP", "pages": "229, 264, 272, 275"}, {"word": "VRRP広告パケット", "pages": "229, 274"}, {"word": "VRRPトラッキング", "pages": "277"}, {"word": "VRRPトリガ", "pages": "277"}, {"word": "WAF", "pages": "362"}, {"word": "WAN", "pages": "54"}, {"word": "WAN高速化装置", "pages": "59"}, {"word": "WANサービス", "pages": "55"}, {"word": "WAS", "pages": "59, 62"}, {"word": "WebDAV", "pages": "217"}, {"word": "Webアプリケーション", "pages": "216"}, {"word": "Webシステム", "pages": "185, 212"}, {"word": "Webトラフィックのスキャン", "pages": "377"}, {"word": "Webメール", "pages": "207"}, {"word": "WEP", "pages": "467"}, {"word": "Wi-Fi Alliance", "pages": "16, 467"}, {"word": "WLC", "pages": "36"}, {"word": "WPA", "pages": "467"}, {"word": "WPA2", "pages": "467"}, {"word": "WPA3", "pages": "467"}, {"word": "WRR", "pages": "311"}, {"word": "XAUTH", "pages": "423"}, {"word": "XCBC-MAC", "pages": "353"}, {"word": "アーキテクチャ設計", "pages": "226"}, {"word": "アウトバウンド", "pages": "294"}, {"word": "アクセス制御", "pages": "331, 360"}, {"word": "アクセス制御機能", "pages": "34"}, {"word": "アクセスポイント", "pages": "21"}, {"word": "アクティブ/アクティブ構成", "pages": "230"}, {"word": "アクティブ/スタンバイ構成", "pages": "229"}, {"word": "アクティブ/スタンバイ方式", "pages": "288"}, {"word": "アグレッシブモード", "pages": "419"}, {"word": "アジェセンシー", "pages": "143"}, {"word": "圧縮", "pages": "235"}, {"word": "宛先到達不能メッセージ", "pages": "106"}, {"word": "アドホックモード", "pages": "21"}, {"word": "アドミッション制御", "pages": "312"}, {"word": "アドミニストレイティブディスタンス", "pages": "131"}, {"word": "アノマリ型", "pages": "372"}, {"word": "アプリケーションサーバ", "pages": "284"}, {"word": "アプリケーションデータプロトコル", "pages": "448"}, {"word": "アプリケーションレベルゲートウェイ", "pages": "362"}, {"word": "アラートの集約", "pages": "487"}, {"word": "アラートプロトコル", "pages": "448"}, {"word": "暗号化", "pages": "330, 446"}, {"word": "暗号方式", "pages": "337"}, {"word": "暗号スイート", "pages": "449, 454"}, {"word": "暗号利用モード", "pages": "340"}, {"word": "イーサネット", "pages": "6"}, {"word": "移行", "pages": "473, 477, 491"}, {"word": "移行計画", "pages": "477"}, {"word": "イコールコストマルチパス機能", "pages": "136"}, {"word": "一元管理", "pages": "36, 494"}, {"word": "一時鍵", "pages": "408"}, {"word": "一方向性", "pages": "352"}, {"word": "一括転送", "pages": "59, 62"}, {"word": "イニシエータ", "pages": "419"}, {"word": "イメージファイル", "pages": "250"}, {"word": "入口対策", "pages": "375"}, {"word": "インシデント", "pages": "482"}, {"word": "インシデント管理", "pages": "497"}, {"word": "インシデント記録のデータベース化", "pages": "501"}, {"word": "インシデント対応の評価", "pages": "500"}, {"word": "インターネットVPN", "pages": "118"}, {"word": "インターネット接続回線の冗長化", "pages": "293"}, {"word": "インテリジェントスイッチ", "pages": "46"}, {"word": "インバウンド", "pages": "294"}, {"word": "インフラストラクチャモード", "pages": "21"}, {"word": "インライン", "pages": "374"}, {"word": "インライン型", "pages": "231"}, {"word": "ウイルス対策", "pages": "375"}, {"word": "ウィンドウ更新", "pages": "83"}, {"word": "ウィンドウサイズ", "pages": "82"}, {"word": "ウィンドウプローブ", "pages": "83"}, {"word": "運用", "pages": "473, 497"}, {"word": "運用規定", "pages": "483"}, {"word": "運用系の技術", "pages": "480"}, {"word": "運用設計", "pages": "475, 482"}, {"word": "運用組織", "pages": "482"}, {"word": "運用マニュアル", "pages": "483"}, {"word": "運用ルール", "pages": "483"}, {"word": "エコー", "pages": "307"}, {"word": "エコー要求/応答", "pages": "106"}, {"word": "エスカレーション", "pages": "498"}, {"word": "エリア", "pages": "137"}, {"word": "エリア境界ルータ", "pages": "145"}, {"word": "エリア分割", "pages": "139"}, {"word": "エンタープライズモード", "pages": "34, 467"}, {"word": "エンティティ認証", "pages": "350"}, {"word": "エンベロープFrom", "pages": "206, 379"}, {"word": "エンベロープTo", "pages": "206"}, {"word": "応答遅延", "pages": "303"}, {"word": "オーケストレーション", "pages": "253"}, {"word": "オーセンティケータ", "pages": "35, 405"}, {"word": "オーバヘッド", "pages": "234"}, {"word": "オーバレイネットワーク", "pages": "2"}, {"word": "オープンリゾルバ", "pages": "202, 396"}, {"word": "オフサイト保守", "pages": "485"}, {"word": "オンサイト保守", "pages": "485"}, {"word": "回線終端での通信制御", "pages": "232"}, {"word": "外部業者への対応", "pages": "485"}, {"word": "鍵交換", "pages": "345"}, {"word": "鍵付きハッシュ", "pages": "352"}, {"word": "拡張SMTP", "pages": "205"}, {"word": "拡張VLANタグ", "pages": "57"}, {"word": "拡張イーサネット", "pages": "2, 53"}, {"word": "確認応答番号", "pages": "80, 85"}, {"word": "仮想IPアドレス", "pages": "272"}, {"word": "仮想MACアドレス", "pages": "272"}, {"word": "仮想化", "pages": "246"}, {"word": "仮想化技術", "pages": "476"}, {"word": "仮想化設計", "pages": "238, 246"}, {"word": "仮想化機構", "pages": "246"}, {"word": "仮想の専用線", "pages": "409"}, {"word": "仮想マシン", "pages": "254"}, {"word": "仮想ルータ", "pages": "272"}, {"word": "片方向通信", "pages": "314"}, {"word": "稼働監視", "pages": "486"}, {"word": "キーストリーム", "pages": "339"}, {"word": "ギガビットイーサネット", "pages": "261"}, {"word": "擬似ストリーミング", "pages": "314"}, {"word": "既知のエラー", "pages": "501"}, {"word": "機能分散型", "pages": "228"}, {"word": "機能要件との適合性", "pages": "228"}, {"word": "逆引き", "pages": "192"}, {"word": "キャッシュ機能", "pages": "366"}, {"word": "キャッシュ構成", "pages": "234"}, {"word": "キャッシュサーバ", "pages": "191"}, {"word": "ギャランティード型", "pages": "58, 312"}, {"word": "共通鍵方式", "pages": "337"}, {"word": "共有ストレージ", "pages": "261"}, {"word": "距離ベクトル方式", "pages": "133"}, {"word": "緊急ポインタ", "pages": "83"}, {"word": "緊急を要する変更", "pages": "495"}, {"word": "クアッドバンド", "pages": "20"}, {"word": "クエリ", "pages": "216"}, {"word": "クライアントサイドスクリプト", "pages": "218"}, {"word": "クライアント証明書", "pages": "450, 456"}, {"word": "クライアント署名", "pages": "451, 457"}, {"word": "クライアント認証", "pages": "350"}, {"word": "クラスタシステム", "pages": "285"}, {"word": "クラスタリング", "pages": "264"}, {"word": "訓練", "pages": "489"}, {"word": "計画", "pages": "491"}, {"word": "契約帯域", "pages": "58"}, {"word": "経路MTU", "pages": "109"}, {"word": "経路集約", "pages": "147, 152"}, {"word": "経路制御", "pages": "133, 135, 160"}, {"word": "経路選択", "pages": "123, 134, 161"}, {"word": "経路ベクトル方式", "pages": "160"}, {"word": "原像計算困難性", "pages": "501"}, {"word": "権限と責任", "pages": "495"}, {"word": "検証環境", "pages": "490"}, {"word": "検証環境の設置", "pages": "486"}, {"word": "限定的ブロードキャストアドレス", "pages": "74"}, {"word": "広域イーサネット", "pages": "57"}, {"word": "公開鍵基盤", "pages": "357"}, {"word": "公開鍵方式", "pages": "343"}, {"word": "公開サーバの脆弱性", "pages": "395"}, {"word": "公開ドメイン情報", "pages": "199"}, {"word": "更新", "pages": "493"}, {"word": "構成要素の関連", "pages": "493"}, {"word": "構成要素の識別", "pages": "494"}, {"word": "高速再転送", "pages": "87"}, {"word": "コーデック", "pages": "307"}, {"word": "国際化ドメイン名", "pages": "189"}, {"word": "コネクション確立フェーズ", "pages": "84"}, {"word": "コネクション切断フェーズ", "pages": "89"}, {"word": "コネクションレス型", "pages": "77"}, {"word": "コネクションレス型通信の脆弱性", "pages": "395"}, {"word": "コンテナ仮想化技術", "pages": "240, 247"}, {"word": "コンテンツサーバ", "pages": "191, 199"}, {"word": "コンテンツフィルタリング", "pages": "377"}, {"word": "コントロールビット", "pages": "80"}, {"word": "コントロールフラグ", "pages": "80"}, {"word": "コンピュータ名", "pages": "216"}, {"word": "サービス", "pages": "58"}, {"word": "サービス時間", "pages": "303"}, {"word": "サービスの設計", "pages": "476, 486"}, {"word": "サービスの復旧", "pages": "498"}, {"word": "サブミッションポート", "pages": "388"}, {"word": "サプリカント", "pages": "405"}, {"word": "再帰的問合せ", "pages": "191"}, {"word": "再送", "pages": "77"}, {"word": "再送処理", "pages": "66"}, {"word": "再送タイムアウト", "pages": "87"}, {"word": "最小コネクション数", "pages": "280"}, {"word": "最短レスポンス時間", "pages": "280"}, {"word": "サイバー攻撃", "pages": "392"}, {"word": "差分", "pages": "235"}, {"word": "差分バックアップ", "pages": "489"}, {"word": "差分転送", "pages": "260"}, {"word": "冗長化", "pages": "288"}, {"word": "NICの~", "pages": "288"}, {"word": "インターネット接続回線の~", "pages": "293"}, {"word": "ルータの~", "pages": "271"}, {"word": "サーバの~", "pages": "278"}, {"word": "衝突", "pages": "352"}, {"word": "衝突困難性", "pages": "352"}, {"word": "情報収集", "pages": "500"}, {"word": "情報セキュリティポリシー", "pages": "483"}, {"word": "初期化ベクトル", "pages": "341"}, {"word": "初期リースの取得", "pages": "111"}, {"word": "シリアル化遅延", "pages": "61, 93, 303"}, {"word": "シリアル化遅延時間", "pages": "61, 93, 303"}, {"word": "スレーブDNSサーバ", "pages": "198"}, {"word": "シンクライアント", "pages": "260"}, {"word": "シェーピング", "pages": "313"}, {"word": "シード", "pages": "338"}, {"word": "シーケンス番号", "pages": "80, 85"}, {"word": "シグネチャ型", "pages": "372"}, {"word": "死活監視", "pages": "134, 161, 181"}, {"word": "時刻同期", "pages": "489"}, {"word": "時刻同期方式", "pages": "351"}, {"word": "システム環境", "pages": "485"}, {"word": "事前共有鍵", "pages": "420, 468"}, {"word": "失効リスト", "pages": "357"}, {"word": "ジッタ", "pages": "307, 310"}, {"word": "集中型", "pages": "227"}, {"word": "集中管理", "pages": "228"}, {"word": "重複IPアドレスの検知", "pages": "98"}, {"word": "順序管理", "pages": "77"}, {"word": "障害対応", "pages": "479"}, {"word": "障害復旧", "pages": "267"}, {"word": "詳細設計", "pages": "227"}, {"word": "スイッチ", "pages": "4, 38"}, {"word": "スキーム", "pages": "215"}, {"word": "スキャン", "pages": "313"}, {"word": "Webトラフィックの~", "pages": "377"}, {"word": "メールの~", "pages": "375"}, {"word": "スクリプト", "pages": "218"}, {"word": "スケールアウト", "pages": "228"}, {"word": "スケールアップ", "pages": "228"}, {"word": "スタック接続", "pages": "264, 270, 289"}, {"word": "スタティックルーティング", "pages": "129"}, {"word": "スタブエリア", "pages": "153"}, {"word": "スタブネットワーク", "pages": "138, 145"}, {"word": "スタブリゾルバ", "pages": "191"}, {"word": "ステータスコード", "pages": "215"}, {"word": "ステータスライン", "pages": "214"}, {"word": "ステートフル", "pages": "213, 284"}, {"word": "ステートフルインスペクション", "pages": "362"}, {"word": "ステートフルフェールオーバー機能", "pages": "362"}, {"word": "ステートレス", "pages": "213"}, {"word": "ステルス化", "pages": "374"}, {"word": "ステルス機能", "pages": "34"}, {"word": "静的NAT", "pages": "367"}, {"word": "静的経路制御", "pages": "129"}, {"word": "性能監視", "pages": "487"}, {"word": "性能要件との適合性", "pages": "228"}, {"word": "性能劣化の兆候", "pages": "487"}, {"word": "正引き", "pages": "190"}, {"word": "セカンダリDNSサーバ", "pages": "198"}, {"word": "セキュリティプロトコル", "pages": "334, 399"}, {"word": "セキュリティポリシー", "pages": "415"}, {"word": "セッションCookie", "pages": "219"}, {"word": "セッションID", "pages": "218"}, {"word": "セッション維持", "pages": "284"}, {"word": "セッション鍵", "pages": "345"}, {"word": "セッション共有", "pages": "285"}, {"word": "セッションクラスタリング", "pages": "285"}, {"word": "セレクタ", "pages": "415"}, {"word": "ゼロウィンドウ", "pages": "83"}, {"word": "前方秘匿性", "pages": "423, 453"}, {"word": "専用ネットワーク", "pages": "261"}, {"word": "早期発見", "pages": "500"}, {"word": "早期復旧", "pages": "500"}, {"word": "送信者認証", "pages": "354"}, {"word": "送信ドメイン認証", "pages": "378"}, {"word": "ゾーン", "pages": "188"}, {"word": "ゾーン情報", "pages": "194"}, {"word": "ゾーン転送", "pages": "198"}, {"word": "ゾーンファイル", "pages": "194"}, {"word": "定期保守", "pages": "500"}, {"word": "定時作業用のマニュアル", "pages": "484"}, {"word": "ディレクテッドブロードキャスト", "pages": "75"}, {"word": "データ圧縮", "pages": "260"}, {"word": "データオフセット", "pages": "80"}, {"word": "データの整合性", "pages": "228"}, {"word": "データのバックアップ", "pages": "501"}, {"word": "データ復旧の目標時間", "pages": "489"}, {"word": "適用方針", "pages": "490"}, {"word": "出口対策", "pages": "375"}, {"word": "デジタル署名", "pages": "351, 353"}, {"word": "デフォルトVLAN", "pages": "41"}, {"word": "デフォルトルート", "pages": "153"}, {"word": "デュアル型", "pages": "230"}, {"word": "デュアルバンド", "pages": "19"}, {"word": "デュアル方式", "pages": "255"}, {"word": "電源", "pages": "486"}, {"word": "電子証明書", "pages": "331, 355, 447"}, {"word": "電子メールシステム", "pages": "185, 205"}, {"word": "電波干渉", "pages": "2"}, {"word": "伝播遅延時間", "pages": "304"}, {"word": "同期処理", "pages": "235"}, {"word": "動作テスト", "pages": "493"}, {"word": "動的経路制御", "pages": "130, 296"}, {"word": "動的経路制御プロトコル", "pages": "69"}, {"word": "導入容易性", "pages": "130, 130"}, {"word": "ドキュメント", "pages": "496"}, {"word": "ドメイン", "pages": "187"}, {"word": "ドメイン空間", "pages": "187"}, {"word": "ドメインツリー", "pages": "188"}, {"word": "ドメインの書式", "pages": "188"}, {"word": "トラッキング", "pages": "277"}, {"word": "トラフィック", "pages": "305"}, {"word": "トラフィック分析", "pages": "300"}, {"word": "トランク接続", "pages": "42"}, {"word": "トランクポート", "pages": "42"}, {"word": "トランスポートモード", "pages": "414"}, {"word": "トランジットネットワーク", "pages": "138"}, {"word": "トリガ", "pages": "277"}, {"word": "トンネリング", "pages": "409"}, {"word": "トンネル処理", "pages": "370"}, {"word": "トンネルモード", "pages": "414"}, {"word": "名前解決", "pages": "190"}, {"word": "ナンス", "pages": "339"}, {"word": "二要素認証", "pages": "350"}, {"word": "認証", "pages": "330"}, {"word": "認証鍵", "pages": "353"}, {"word": "認証機能", "pages": "34, 366"}, {"word": "認証局", "pages": "355"}, {"word": "認証付き暗号", "pages": "342"}, {"word": "認証と接続の手順", "pages": "405"}, {"word": "認証プロトコル", "pages": "399"}, {"word": "認証方式", "pages": "349"}, {"word": "ネイバー", "pages": "143"}, {"word": "ネクストホップセルフ", "pages": "172, 179"}, {"word": "ネゴシエーション", "pages": "450"}, {"word": "ネットワーク型IDS", "pages": "372"}, {"word": "ノード内処理時間", "pages": "304"}, {"word": "バーチャルAP機能", "pages": "33"}, {"word": "ハードウェア処理", "pages": "235"}, {"word": "ハーフオープン", "pages": "393"}, {"word": "バイオメトリクス認証", "pages": "351"}, {"word": "バックアップ", "pages": "488"}, {"word": "バックアップ代表ルータ", "pages": "141"}, {"word": "バックアップルータ", "pages": "273"}, {"word": "バックオフ", "pages": "9, 24"}, {"word": "バックドア", "pages": "375"}, {"word": "バックボーンエリア", "pages": "137"}, {"word": "パッシブスキャン", "pages": "22"}, {"word": "パッチの更新", "pages": "490"}, {"word": "ハッシュアルゴリズム", "pages": "352"}, {"word": "ハンドシェーク", "pages": "457"}, {"word": "ハンドシェークプロトコル", "pages": "448"}, {"word": "反復問合せ", "pages": "191"}, {"word": "汎用JPドメイン", "pages": "189"}, {"word": "ピアリング", "pages": "127, 165"}, {"word": "ピーク時間帯", "pages": "302"}, {"word": "ビーコン", "pages": "291"}, {"word": "ビーコン信号", "pages": "22"}, {"word": "非公開ドメイン情報", "pages": "199"}, {"word": "非機能要件との適合性", "pages": "302"}, {"word": "非同期処理", "pages": "235"}, {"word": "否認防止", "pages": "350"}, {"word": "送信者の~", "pages": "354"}, {"word": "非ブロードキャストマルチアクセス", "pages": "139"}, {"word": "標準的な変更", "pages": "495"}, {"word": "品質", "pages": "58"}, {"word": "品質劣化", "pages": "303"}, {"word": "ファイアウォール", "pages": "360"}, {"word": "フィルタリング", "pages": "488"}, {"word": "フォールスネガティブ", "pages": "374"}, {"word": "フォールスポジティブ", "pages": "374"}, {"word": "フォールバック", "pages": "231"}, {"word": "フォワーダ", "pages": "193"}, {"word": "フォワードプロキシ", "pages": "368"}, {"word": "負荷分散", "pages": "131"}, {"word": "負荷分散アルゴリズム", "pages": "280"}, {"word": "負荷分散型", "pages": "228"}, {"word": "負荷分散装置", "pages": "233, 278"}, {"word": "複数のネットワーク階層", "pages": "486"}, {"word": "輻輳", "pages": "66"}, {"word": "輻輳ウィンドウ", "pages": "90, 319"}, {"word": "輻輳回避アルゴリズム", "pages": "90"}, {"word": "輻輳制御", "pages": "89"}, {"word": "物理サーバ", "pages": "261"}, {"word": "踏み台", "pages": "385"}, {"word": "プライベートAS番号", "pages": "132"}, {"word": "プライベートCA", "pages": "358"}, {"word": "プライベートDNS名前空間", "pages": "189"}, {"word": "プライベートアドレス", "pages": "75"}, {"word": "フラグ", "pages": "73, 80"}, {"word": "フラグメント", "pages": "73"}, {"word": "フラグメントオフセット", "pages": "73"}, {"word": "フラッピング", "pages": "46"}, {"word": "プリエンプトディレイ", "pages": "275"}, {"word": "プリエンプトモード", "pages": "274"}, {"word": "プライマリシークレット", "pages": "450, 451"}, {"word": "振り分け方式", "pages": "280"}, {"word": "フルサービスリゾルバ", "pages": "191"}, {"word": "フルバックアップ", "pages": "488"}, {"word": "フルメッシュ", "pages": "166"}, {"word": "フレームアグリゲーション", "pages": "30"}, {"word": "フロー制御", "pages": "66, 77"}, {"word": "フローティングスタティック", "pages": "131, 296"}, {"word": "プロキシ", "pages": "363"}, {"word": "プログレッシブダウンロード", "pages": "314"}, {"word": "プログレッシブ表示技術", "pages": "260"}, {"word": "プロトコル番号", "pages": "74"}, {"word": "ブロック暗号アルゴリズム", "pages": "353"}, {"word": "ブロック暗号方式", "pages": "340"}, {"word": "ベストエフォート型", "pages": "58, 312"}, {"word": "ベストパス", "pages": "161"}, {"word": "ヘッダチェックサム", "pages": "74"}, {"word": "ペネトレーションテスト", "pages": "398"}, {"word": "ヘルスチェック", "pages": "279, 487"}, {"word": "レイヤ7方式", "pages": "487"}, {"word": "ポイントツーポイントネットワーク", "pages": "138"}, {"word": "方式設計", "pages": "227"}, {"word": "ポート番号", "pages": "77, 78, 84, 216"}, {"word": "ポートフォワーディング", "pages": "367, 369"}, {"word": "ポートフォワーディング機能", "pages": "252"}, {"word": "ポートフォワーディング方式", "pages": "460"}, {"word": "ポートベースVLAN", "pages": "40"}, {"word": "ポーリング", "pages": "488"}, {"word": "ホストOS型", "pages": "246"}, {"word": "ホスト型", "pages": "372"}, {"word": "ボトルネック", "pages": "228, 300"}, {"word": "ボリューム", "pages": "251"}, {"word": "ポリシーベースルーティング", "pages": "128"}, {"word": "ポリシング", "pages": "313"}, {"word": "マイクロサービスアーキテクチャ", "pages": "252"}, {"word": "マインドフル", "pages": "484"}, {"word": "マインドレス", "pages": "484"}, {"word": "マスタDNSサーバ", "pages": "198"}, {"word": "マスタルータ", "pages": "273"}, {"word": "待ち時間", "pages": "303"}, {"word": "マニュアル作成", "pages": "501"}, {"word": "マルチアクセスネットワーク", "pages": "138"}, {"word": "マルチギガビットイーサネット", "pages": "6"}, {"word": "マルチキャストアドレス", "pages": "74"}, {"word": "予約された~", "pages": "15"}, {"word": "マルチキャストパケット", "pages": "75"}, {"word": "マルチホーミング", "pages": "293"}, {"word": "ミドルボックス", "pages": "448"}, {"word": "ミラーポート", "pages": "45, 374"}, {"word": "ミラーリング", "pages": "45"}, {"word": "無線LAN", "pages": "2, 16, 467"}, {"word": "無線LAN規格のフレームフォーマット", "pages": "29"}, {"word": "無線LANコントローラ", "pages": "33, 36"}, {"word": "無線PAN", "pages": "16"}, {"word": "明示的輻輳制御", "pages": "81, 317"}, {"word": "迷惑メール", "pages": "377"}, {"word": "メインモード", "pages": "419"}, {"word": "メールアドレス", "pages": "211"}, {"word": "メールヘッダ", "pages": "209"}, {"word": "メッセージダイジェスト", "pages": "351"}, {"word": "メッセージ認証", "pages": "351, 446, 467"}, {"word": "メトリック", "pages": "126"}, {"word": "問題管理", "pages": "500"}, {"word": "役割分担", "pages": "485"}, {"word": "有効期限", "pages": "219, 357"}, {"word": "有効なドメイン", "pages": "219"}, {"word": "有効なパス", "pages": "219"}, {"word": "ユーザ認証", "pages": "467"}, {"word": "ユーザ名/パスワード", "pages": "216"}, {"word": "ユニキャストパケット", "pages": "75"}, {"word": "ユニファイドコミュニケーション", "pages": "52"}, {"word": "要員の教育", "pages": "484"}, {"word": "要員の訓練", "pages": "501"}, {"word": "要件との適合性", "pages": "227"}, {"word": "ライブマイグレーション", "pages": "257"}, {"word": "ラウンドトリップ時間", "pages": "92"}, {"word": "ラウンドロビン", "pages": "280"}, {"word": "ラベル", "pages": "56, 494"}, {"word": "リース期間", "pages": "110"}, {"word": "リースの更新", "pages": "111"}, {"word": "リキー", "pages": "416"}, {"word": "利用者認証方式", "pages": "467"}, {"word": "利用者への対応", "pages": "484"}, {"word": "リレーエージェント情報オプション", "pages": "113"}, {"word": "リンクアグリゲーション", "pages": "261, 264, 268, 288"}, {"word": "リンクステート方式", "pages": "134"}, {"word": "リンクステートトラッキング", "pages": "290"}, {"word": "リンクローカルアドレス", "pages": "74"}, {"word": "隣接関係", "pages": "143"}, {"word": "ルーティング", "pages": "69, 123"}, {"word": "ルーティングテーブル", "pages": "123"}, {"word": "ルート障害検知機能", "pages": "294"}, {"word": "ルート証明書", "pages": "357"}, {"word": "ルートリフレクタ", "pages": "166"}, {"word": "ループバックアドレス", "pages": "74"}, {"word": "ループバックインタフェース", "pages": "126"}, {"word": "ループ防止", "pages": "46"}, {"word": "ルール", "pages": "280"}, {"word": "レイヤ2サービス", "pages": "57"}, {"word": "レイヤ3サービス", "pages": "55"}, {"word": "レジストラ", "pages": "189"}, {"word": "レスポンダ", "pages": "419"}, {"word": "連続転送", "pages": "77"}, {"word": "連絡手順", "pages": "485"}, {"word": "ローカルブレークアウト", "pages": "233"}, {"word": "ローミング", "pages": "3"}, {"word": "ローミング機能", "pages": "33"}, {"word": "ログ監視", "pages": "488"}, {"word": "ロンゲストマッチアルゴリズム", "pages": "69, 124"}, {"word": "ワンタイムパスワード認証", "pages": "351"}]</script>
+<script>
+const DATA = JSON.parse(document.getElementById('index-data').textContent);
+const TOTAL = DATA.length;
+
+function escapeHtml(s) {
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+function highlight(text, q) {
+  if (!q) return escapeHtml(text);
+  const idx = text.toLowerCase().indexOf(q.toLowerCase());
+  if (idx === -1) return escapeHtml(text);
+  const before = escapeHtml(text.slice(0, idx));
+  const match = escapeHtml(text.slice(idx, idx+q.length));
+  const after = escapeHtml(text.slice(idx+q.length));
+  return before + '<mark>' + match + '</mark>' + after;
+}
+
+function render(query) {
+  const el = document.getElementById('content');
+  const meta = document.getElementById('metaRow');
+
+  if (!query) {
+    meta.textContent = `全 ${TOTAL} 件を収録`;
+    el.innerHTML = '<div class="hint">単語を入力すると、該当する索引語とページ数が一覧表示されます。</div>';
+    return;
+  }
+
+  const q = query.toLowerCase();
+  const exact = [];
+  const partial = [];
+  DATA.forEach(d => {
+    const w = d.word.toLowerCase();
+    if (w === q) exact.push(d);
+    else if (w.includes(q)) partial.push(d);
+  });
+  const rows = exact.concat(partial);
+
+  meta.textContent = `${rows.length} 件ヒット (全 ${TOTAL} 件中)`;
+
+  if (rows.length === 0) {
+    el.innerHTML = '<div class="empty">該当する単語が見つかりませんでした</div>';
+    return;
+  }
+
+  let html = '<table><thead><tr><th>単語</th><th>ページ</th></tr></thead><tbody>';
+  rows.forEach(d => {
+    html += `<tr><td class="word-cell">${highlight(d.word, query)}</td><td class="page-cell">${escapeHtml(d.pages)}</td></tr>`;
+  });
+  html += '</tbody></table>';
+  el.innerHTML = html;
+}
+
+document.getElementById('searchInput').addEventListener('input', (e) => {
+  render(e.target.value.trim());
+});
+
+render('');
+</script>
+</body>
+</html>
