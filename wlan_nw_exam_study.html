@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ネットワークスペシャリスト試験対策｜無線LAN</title>
+<style>
+:root{--ink:#17202a;--muted:#5f6b76;--accent:#9f3f34;--accent2:#f7ece9;--line:#d9dee3;--bg:#f6f7f9;--card:#fff;--good:#eaf6ef;--warn:#fff5db;}
+*{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Hiragino Kaku Gothic ProN","Yu Gothic",Meiryo,sans-serif;line-height:1.8}
+header{background:linear-gradient(135deg,#7f3029,#a64c40);color:#fff;padding:44px 20px 36px} header .inner,main{max-width:1050px;margin:auto} h1{margin:0 0 8px;font-size:2rem} .subtitle{opacity:.9}
+main{padding:28px 18px 60px}.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:26px;margin:18px 0;box-shadow:0 2px 8px rgba(0,0,0,.035)}
+h2{font-size:1.45rem;border-left:6px solid var(--accent);padding-left:12px;margin:0 0 18px} h3{font-size:1.1rem;color:var(--accent);margin:26px 0 8px} h4{margin:16px 0 4px}
+p{margin:.55em 0} ul,ol{padding-left:1.5em}.lead{font-size:1.05rem}.note,.outside{border-left:4px solid #d39928;padding:10px 14px;background:var(--warn);border-radius:6px;margin:14px 0}.outside strong{color:#8a5a00}
+.exam{border-left:4px solid var(--accent);padding:10px 14px;background:var(--accent2);border-radius:6px;margin:14px 0}.exam strong{color:var(--accent)}
+table{width:100%;border-collapse:collapse;margin:14px 0 20px;font-size:.95rem}th,td{border:1px solid var(--line);padding:10px 11px;vertical-align:top}th{background:#f0f2f4;text-align:left}.nowrap{white-space:nowrap}.small{font-size:.9rem;color:var(--muted)}
+.term{padding:15px 0;border-bottom:1px dashed var(--line)}.term:last-child{border-bottom:none}.term-title{font-weight:700;font-size:1.04rem;color:#842f27}.summary{font-weight:700}.detail{color:#27313a}.checklist{list-style:none;padding:0}.checklist li{display:flex;gap:10px;align-items:flex-start;padding:8px 0;border-bottom:1px solid #edf0f2}.checklist input{margin-top:7px;transform:scale(1.15)}
+.flow{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:14px 0}.step{border:1px solid var(--line);border-radius:10px;padding:12px;background:#fafbfc}.step b{display:block;color:var(--accent);margin-bottom:4px}
+.badge{display:inline-block;padding:2px 8px;border-radius:999px;background:#eceff3;font-size:.82rem;margin-right:5px}.source{font-size:.86rem;color:var(--muted);margin-top:30px}
+@media(max-width:650px){header{padding-top:30px}h1{font-size:1.55rem}.card{padding:18px}table{font-size:.86rem}th,td{padding:7px}}
+</style>
+</head>
+<body>
+<header><div class="inner"><h1>ネットワークスペシャリスト試験対策：無線LAN</h1><div class="subtitle">IEEE 802.11／アクセス制御／フレーム／AP・WLC／無線LANセキュリティ</div></div></header>
+<main>
+<section class="card">
+<h2>1. 分野の概要・全体像</h2>
+<p class="lead">本資料は、無線LANの基本規格（IEEE 802.11）、高速化技術、周波数帯、BSS/ESSなどの構成、CSMA/CAによる媒体アクセス制御、IEEE 802.11フレーム、AP・無線LANコントローラ、そしてWPA/WPA2/WPA3を中心としたセキュリティを扱っています。</p>
+<p>ネットワークスペシャリスト試験では、単なる規格名の暗記よりも、<strong>「なぜ衝突回避が必要か」「隠れ端末をどう防ぐか」「企業向け認証がどの機器・プロトコルで成立するか」「WPA2/WPA3が何を改善したか」</strong>といった仕組みの理解が重要です。</p>
+</section>
+
+<section class="card">
+<h2>2. 本文内容の簡潔かつ分かりやすい解説</h2>
+
+<h3>2-1. 無線LAN規格と高速化の考え方</h3>
+<p>無線LANは主にIEEE 802.11系列で標準化されています。世代が新しくなるにつれ、単に電波を強くするのではなく、<strong>複数アンテナ・複数サブキャリア・複数チャネル・複数周波数帯を効率的に使う</strong>ことで通信速度や同時接続性能を高めています。</p>
+<table>
+<tr><th>技術</th><th>直感的な理解</th><th>試験での着眼点</th></tr>
+<tr><td class="nowrap">MIMO</td><td>複数アンテナを使い、複数の信号系列を並列に送受信する。</td><td>空間ストリームを増やし高速化。MU-MIMOでは複数端末への同時通信を狙う。</td></tr>
+<tr><td>OFDM</td><td>1本の高速な通信を、多数の狭いサブキャリアに分けて並列伝送する。</td><td>マルチパスの影響を受けにくく、高速伝送に向く。</td></tr>
+<tr><td>OFDMA</td><td>OFDMのサブキャリア群を端末ごとに分配する。</td><td>複数端末が同時に使いやすくなり、混雑時の効率向上につながる。</td></tr>
+<tr><td>チャネルボンディング</td><td>隣接チャネルを束ね、1本の太いチャネルとして使う。</td><td>帯域幅を広げて高速化する一方、利用可能チャネルを多く消費する。</td></tr>
+<tr><td>マルチバンド</td><td>2.4GHz、5GHz、6GHzなど複数の周波数帯を使い分ける。</td><td>周波数帯ごとの到達性、干渉、利用可能チャネル数の違いを理解する。</td></tr>
+</table>
+<div class="exam"><strong>試験ポイント：</strong>「高速化＝変調方式だけ」と考えないこと。MIMO、チャネル幅拡大、OFDMAなど<strong>異なる方向の高速化・効率化技術</strong>を区別できることが重要です。</div>
+
+<h3>2-2. 2.4GHz・5GHz・6GHz帯の違い</h3>
+<table>
+<tr><th>帯域</th><th>特徴</th><th>注意点</th></tr>
+<tr><td>2.4GHz帯</td><td>比較的遠くまで届きやすく、障害物にも比較的強い。</td><td>他の機器でも使われやすく、干渉しやすい。利用可能な非重複チャネルが少ない。</td></tr>
+<tr><td>5GHz帯</td><td>2.4GHzより多数のチャネルを利用でき、高速通信に向く。</td><td>一部チャネルでは気象・航空レーダとの共用のためDFSが関係する。</td></tr>
+<tr><td>6GHz帯</td><td>新しい無線LAN向けに広い周波数資源を利用できる。</td><td>資料ではWi-Fi 6Eとの関係が説明されている。</td></tr>
+</table>
+<p><strong>DFS（Dynamic Frequency Selection）</strong>は、5GHz帯の一部でレーダ波を検知した場合にチャネルを変更し、レーダとの干渉を避ける仕組みです。</p>
+
+<h3>2-3. BSS・ESS・SSID：無線LANの「まとまり」</h3>
+<p>無線LANでは、端末とAPの関係を論理的なまとまりとして捉えます。</p>
+<ul>
+<li><strong>BSS（Basic Service Set）</strong>：基本的な無線LANの単位。インフラストラクチャモードでは、通常1台のAPとその配下端末で構成されます。</li>
+<li><strong>IBSS（Independent BSS）</strong>：APを使わず端末同士で直接通信するアドホック型のBSSです。</li>
+<li><strong>ESS（Extended Service Set）</strong>：複数のBSSを接続して、より広い無線LANとして扱う構成です。</li>
+<li><strong>SSID</strong>：無線LANを識別する名前。ESS IDと呼ばれることもあります。</li>
+</ul>
+<div class="exam"><strong>試験ポイント：</strong>BSSは「APそのもの」ではありません。APと端末を含む<strong>サービスセット（通信範囲・論理グループ）</strong>として理解すると混乱しにくくなります。</div>
+
+<h3>2-4. AP探索：パッシブスキャンとアクティブスキャン</h3>
+<p>端末は接続先APを見つける必要があります。資料では、SSIDを得る方法として次の2方式が扱われています。</p>
+<table>
+<tr><th>方式</th><th>動作</th><th>イメージ</th></tr>
+<tr><td>パッシブスキャン</td><td>APが周期的に送信するビーコンを端末が受信する。</td><td>端末が「APからの案内を待つ」。</td></tr>
+<tr><td>アクティブスキャン</td><td>端末がProbe Requestを送り、APがProbe Responseで応答する。</td><td>端末側から「APはいますか」と問い合わせる。</td></tr>
+</table>
+
+<h3>2-5. CSMA/CA：無線LANが衝突を「避ける」仕組み</h3>
+<p>有線Ethernetのように送信中の衝突を確実に検出することが難しいため、無線LANでは<strong>CSMA/CA（Carrier Sense Multiple Access with Collision Avoidance）</strong>を用いて、送信前に衝突をできるだけ避けます。</p>
+<div class="flow">
+<div class="step"><b>1. キャリアセンス</b>他端末が送信中でないか確認。</div>
+<div class="step"><b>2. DIFS待機</b>媒体が空いてもすぐには送らず一定時間待つ。</div>
+<div class="step"><b>3. ランダムバックオフ</b>競合端末が同時送信しないよう乱数時間待つ。</div>
+<div class="step"><b>4. データ送信</b>バックオフが0になった端末が送信。</div>
+<div class="step"><b>5. ACK</b>受信側はSIFS後にACKを返す。</div>
+</div>
+<p><strong>SIFSはDIFSより短い</strong>ため、ACKなど既に進行中の通信に関係するフレームを優先できます。ACKが戻らない場合、送信側は衝突などを疑い再送します。</p>
+<p><strong>NAV（Network Allocation Vector）</strong>は、他の端末がどれくらい媒体を使う予定かを示す情報から「この時間は送信を控える」と判断するための仮想キャリアセンスに使われます。</p>
+
+<h3>2-6. 隠れ端末問題とRTS/CTS</h3>
+<p>端末Aと端末Bが互いの電波を受信できないのに、両方とも同じAPへ送信できる位置関係では、AとBは相手の送信を検知できず、APで衝突が起きることがあります。これが<strong>隠れ端末問題</strong>です。</p>
+<p>対策として<strong>RTS/CTS</strong>を使うと、送信端末がRTSで送信許可を要求し、APがCTSを返します。周囲の端末はCTSを受け、NAVに基づき一定時間送信を控えるため、衝突を避けやすくなります。</p>
+<div class="flow">
+<div class="step"><b>RTS</b>端末 → AP：送信したい</div>
+<div class="step"><b>CTS</b>AP → 周囲：この端末が送る</div>
+<div class="step"><b>DATA</b>端末 → AP：データ送信</div>
+<div class="step"><b>ACK</b>AP → 端末：受信完了</div>
+</div>
+<p>資料では、逆に「実際には同時送信可能なのに不要に待ってしまう」<strong>さらし端末問題</strong>も扱われています。</p>
+
+<h3>2-7. BSSカラー</h3>
+<p>隣接するBSSの電波まで一律に「自分と競合する通信」と判断すると、不要な待ち時間が増えます。BSSカラーはフレームにBSSを識別する情報を持たせ、<strong>同一BSS由来の通信か、隣接BSS由来の通信か</strong>を区別しやすくする考え方です。</p>
+
+<h3>2-8. IEEE 802.11フレームとフレームアグリゲーション</h3>
+<p>IEEE 802.11のMACフレームは、無線特有の制御情報を含みます。資料では<strong>To DS / From DS</strong>の組合せにより、端末・AP・分配システムのどちら向きの通信かを表し、場合によって複数のMACアドレス欄を使うことが示されています。</p>
+<p><strong>フレームアグリゲーション</strong>は、複数フレームをまとめて送信し、フレームごとに発生する待機時間や制御オーバーヘッドを減らすことでスループットを向上させます。ただし、まとめるほど1回の送信時間は長くなるため、遅延とのトレードオフがあります。</p>
+
+<h3>2-9. AP・仮想AP・ローミング・無線LANコントローラ</h3>
+<p>APは無線端末を有線LANへ橋渡しするだけでなく、アクセス制御や認証関連の機能も担います。1台のAP上に複数の<strong>仮想AP</strong>を作り、SSIDやVLANを分けて運用することもできます。</p>
+<p><strong>ローミング</strong>は、端末が移動した際に、同一ESS内の別APへ接続先を切り替えて通信を継続する仕組みです。</p>
+<p><strong>WLC（Wireless LAN Controller）</strong>は、複数APを集中管理し、設定配布、監視、チャネル調整、負荷分散、ローミング支援、セキュリティ機能などを担います。</p>
+<div class="exam"><strong>試験ポイント：</strong>WLCを使う構成では、「APが全部を自律的に判断する」とは限りません。管理・制御機能をWLCへ集約する構成があることを押さえます。</div>
+
+<h3>2-10. 企業向け認証：IEEE 802.1XとRADIUS</h3>
+<p>エンタープライズモードでは、IEEE 802.1Xを用いて利用者認証を行います。資料の流れでは、端末がAPを介して認証サーバ（RADIUS）と認証処理を行い、認証成功後に暗号通信に必要な鍵情報が生成・利用されます。</p>
+<table>
+<tr><th>役割</th><th>無線LANでの例</th><th>役割</th></tr>
+<tr><td>Supplicant</td><td>無線端末</td><td>認証を受ける側。</td></tr>
+<tr><td>Authenticator</td><td>AP</td><td>端末の通信を制御し、認証情報を認証サーバへ中継する。</td></tr>
+<tr><td>Authentication Server</td><td>RADIUSサーバ</td><td>資格情報を確認し、認証可否を判断する。</td></tr>
+</table>
+<p>資料ではEAPを用いた認証方式の例として、証明書を使う<strong>EAP-TLS</strong>にも触れています。また、ローミング時の認証処理を高速化するために、生成済みの<strong>PMK</strong>を再利用する考え方も示されています。</p>
+
+<h3>2-11. 無線LANセキュリティ：WEP → WPA → WPA2 → WPA3</h3>
+<p>初期のIEEE 802.11ではWEPが使われましたが、脆弱性が明らかになりました。その後、Wi-Fi AllianceがWPAを策定し、WPA2、WPA3へと強化されています。</p>
+<table>
+<tr><th>方式</th><th>主な暗号・メッセージ認証</th><th>利用者認証</th><th>押さえるポイント</th></tr>
+<tr><td>WEP</td><td>資料では旧方式として扱う</td><td>—</td><td>脆弱性があり、後継方式へ移行。</td></tr>
+<tr><td>WPA</td><td>TKIP</td><td>パーソナル / エンタープライズ</td><td>WEPからの暫定的な強化。</td></tr>
+<tr><td>WPA2</td><td>CCMP</td><td>パーソナル / エンタープライズ</td><td>AESを用いるCCMPが中心。</td></tr>
+<tr><td>WPA3</td><td>CCMP（資料の比較表ではWPA2/WPA3側）</td><td>パーソナル / エンタープライズ</td><td>パーソナルではSAEを採用し、PSK方式の弱点を改善。</td></tr>
+</table>
+
+<h3>2-12. パーソナルモードとエンタープライズモード</h3>
+<table>
+<tr><th>方式</th><th>認証の考え方</th><th>向く環境</th></tr>
+<tr><td>パーソナルモード</td><td>共有秘密（PSK）やWPA3のSAEを用いる。</td><td>家庭・小規模環境など。</td></tr>
+<tr><td>エンタープライズモード</td><td>IEEE 802.1XとRADIUSを利用し、利用者ごとに認証する。</td><td>企業・組織など、多数利用者を個別管理したい環境。</td></tr>
+</table>
+<p>WPA2パーソナルではPSKから鍵生成に用いる情報が導出されるため、弱いPSKだと辞書攻撃などのリスクが高まります。WPA3パーソナルでは<strong>SAE</strong>により、この点を改善する仕組みが採用されています。</p>
+
+<h3>2-13. CCMPの考え方</h3>
+<p>CCMPはAESを利用し、<strong>暗号化</strong>と<strong>メッセージ認証</strong>の両方を提供します。資料では、暗号化にCTR（Counter）モード、メッセージ認証にCBC-MACを用いることが説明されています。</p>
+<ul>
+<li><strong>CTRモード</strong>：カウンタ値をAESで暗号化し、その出力と平文をXORして暗号文を作る。</li>
+<li><strong>CBC-MAC</strong>：データを連鎖的に処理してMAC（Message Authentication Code）を作り、改ざん検知に使う。</li>
+</ul>
+<div class="exam"><strong>試験ポイント：</strong>「暗号化」と「改ざん検知」は別の目的です。CCMPは両方を組み合わせることで、盗聴対策とメッセージ完全性確認を実現します。</div>
+
+<div class="outside"><strong>※資料外の補足：</strong>実務では、WPA2/WPA3の名称だけで安全性を判断せず、暗号スイート、認証方式、PSK強度、証明書検証、AP設定などを含めて総合的に確認します。</div>
+</section>
+
+<section class="card">
+<h2>3. 重要単語まとめ（試験対策）</h2>
+
+<div class="term"><div class="term-title">［IEEE 802.11］</div><div class="summary">要約: 無線LANのMAC層・物理層などを定める代表的な標準規格群です。</div><div class="detail">詳細: 802.11a/b/g/n/ac/axなど世代ごとに利用周波数帯、変調・多重化、高速化技術が異なります。試験ではWi-Fi世代との対応だけでなく、周波数帯・MIMO・OFDM/OFDMAなどの技術差が問われます。</div></div>
+<div class="term"><div class="term-title">［Wi-Fi Alliance］</div><div class="summary">要約: IEEE 802.11機器の相互接続性やセキュリティ方式などを認証・推進する業界団体です。</div><div class="detail">詳細: WPA、WPA2、WPA3などのセキュリティ仕様を策定・普及させています。IEEE規格そのものとWi-Fi Allianceの認証・ブランドを混同しないことが重要です。</div></div>
+<div class="term"><div class="term-title">［MIMO / MU-MIMO］</div><div class="summary">要約: 複数アンテナを用いて複数の信号を並列送受信し、速度や通信効率を高める技術です。</div><div class="detail">詳細: MIMOは空間ストリームを利用して高速化します。MU-MIMOは複数ユーザへの同時通信を可能にし、AP配下に多数端末がある環境で効率向上が期待できます。</div></div>
+<div class="term"><div class="term-title">［OFDM］</div><div class="summary">要約: 1つの高速データを多数の直交するサブキャリアへ分けて並列伝送する多重化方式です。</div><div class="detail">詳細: サブキャリア同士を直交させることで周波数利用効率を高め、マルチパスにも強くなります。IEEE 802.11の高速化を支える基礎技術です。</div></div>
+<div class="term"><div class="term-title">［OFDMA］</div><div class="summary">要約: OFDMのサブキャリア群を複数端末へ割り当て、同時通信効率を高める方式です。</div><div class="detail">詳細: 1端末が全帯域を占有するのではなく、必要に応じて周波数資源を分けるため、多数端末が少量データを送る環境で効率が良くなります。</div></div>
+<div class="term"><div class="term-title">［チャネルボンディング］</div><div class="summary">要約: 複数の隣接チャネルを束ね、より広い帯域幅として使う高速化技術です。</div><div class="detail">詳細: 帯域幅を広げるほど理論上の速度は上げやすくなりますが、消費する周波数資源も増えるため、周囲のBSSとの干渉やチャネル設計との兼ね合いが重要です。</div></div>
+<div class="term"><div class="term-title">［DFS］</div><div class="summary">要約: 5GHz帯の一部でレーダ波との干渉を避けるため、使用チャネルを動的に変更する仕組みです。</div><div class="detail">詳細: APがレーダを検知した場合、該当チャネルの使用を中止し、別チャネルへ移動します。5GHz帯のチャネル設計問題で出やすい概念です。</div></div>
+<div class="term"><div class="term-title">［BSS / IBSS / ESS］</div><div class="summary">要約: 無線LANの通信グループを表す単位で、BSSが基本単位、ESSが複数BSSを束ねた構成です。</div><div class="detail">詳細: インフラストラクチャモードのBSSではAPが中心になります。IBSSはAPを介さないアドホック型、ESSは複数BSSを分配システムで接続した構成です。</div></div>
+<div class="term"><div class="term-title">［SSID］</div><div class="summary">要約: 無線LANネットワークを識別するための名称です。</div><div class="detail">詳細: 端末はビーコンやProbe ResponseからSSID情報を得て接続対象を選びます。SSID非通知は、強固な認証や暗号化の代替にはなりません。</div></div>
+<div class="term"><div class="term-title">［CSMA/CA］</div><div class="summary">要約: 無線LANで衝突を事前に避けるための媒体アクセス制御方式です。</div><div class="detail">詳細: キャリアセンス、DIFS、ランダムバックオフ、ACKを組み合わせます。衝突を検出してから対処するのではなく、衝突を起こしにくくする方式である点が重要です。</div></div>
+<div class="term"><div class="term-title">［DIFS / SIFS］</div><div class="summary">要約: 無線LANで送信優先度を調整するための待ち時間です。</div><div class="detail">詳細: SIFSはDIFSより短く、ACKやCTSなど進行中の通信に関係する応答を優先させます。試験では「なぜACKが他の新規送信より先に返せるのか」を説明できることが重要です。</div></div>
+<div class="term"><div class="term-title">［NAV］</div><div class="summary">要約: 他端末の通信予定時間をもとに、自端末が送信を控える時間を管理する仮想キャリアセンスの仕組みです。</div><div class="detail">詳細: RTS/CTSやフレーム中のDuration情報をもとに設定し、物理的な電波検知だけでは把握できない通信予約を端末間で共有します。</div></div>
+<div class="term"><div class="term-title">［隠れ端末問題］</div><div class="summary">要約: 互いの電波を検知できない2端末が同じAPへ同時送信し、APで衝突する問題です。</div><div class="detail">詳細: キャリアセンスだけでは防げないため、RTS/CTSを使ってAPから周囲へ送信予定を知らせ、NAVを設定させる対策が有効です。</div></div>
+<div class="term"><div class="term-title">［RTS/CTS］</div><div class="summary">要約: データ送信前に送信要求と送信許可を交換し、衝突を避けるための制御方式です。</div><div class="detail">詳細: RTS→CTS→DATA→ACKの順に進みます。制御フレーム分のオーバーヘッドが増えるため、常に有利とは限りません。</div></div>
+<div class="term"><div class="term-title">［BSSカラー］</div><div class="summary">要約: 受信したフレームが自BSSか隣接BSSかを識別しやすくするための識別情報です。</div><div class="detail">詳細: 周囲の別BSSの通信を必要以上に待つ状況を減らし、空間再利用性を高める目的があります。</div></div>
+<div class="term"><div class="term-title">［フレームアグリゲーション］</div><div class="summary">要約: 複数のデータをまとめて送信し、無線LANの制御オーバーヘッドを削減する技術です。</div><div class="detail">詳細: 各フレームごとの競合・待機・ACK処理を減らしてスループットを高めます。一方で、まとめるほど送信単位が大きくなり、遅延とのトレードオフがあります。</div></div>
+<div class="term"><div class="term-title">［WLC］</div><div class="summary">要約: 複数の無線APを集中管理する無線LANコントローラです。</div><div class="detail">詳細: AP設定配布、稼働監視、チャネル調整、負荷分散、ローミング支援、セキュリティ機能などを集約します。製品によってデータ転送経路や制御方式は異なります。</div></div>
+<div class="term"><div class="term-title">［IEEE 802.1X］</div><div class="summary">要約: ネットワーク接続前に利用者・端末を認証するポートベースのアクセス制御方式です。</div><div class="detail">詳細: 無線LANでは端末がSupplicant、APがAuthenticator、RADIUSサーバがAuthentication Serverとなる構成が代表的です。EAPを使って認証情報をやり取りします。</div></div>
+<div class="term"><div class="term-title">［RADIUS］</div><div class="summary">要約: 利用者認証・認可・アカウンティングに使われるAAAプロトコルです。</div><div class="detail">詳細: 企業無線LANではAPがRADIUSクライアントとして認証要求を中継し、RADIUSサーバがユーザ資格情報を確認します。</div></div>
+<div class="term"><div class="term-title">［WPA / WPA2 / WPA3］</div><div class="summary">要約: 無線LANの暗号化・メッセージ認証・利用者認証を段階的に強化してきたセキュリティ仕様です。</div><div class="detail">詳細: 資料ではWPAはTKIP、WPA2/WPA3はCCMPを中心に整理されています。WPA3パーソナルではSAEを採用し、PSK方式に比べパスワード推測攻撃への耐性を高めます。</div></div>
+<div class="term"><div class="term-title">［PSK］</div><div class="summary">要約: 接続者があらかじめ共有しておく秘密情報を使う認証方式です。</div><div class="detail">詳細: WPA2パーソナルで広く用いられます。共有鍵が弱いと辞書攻撃等の危険が高まるため、十分な強度のパスフレーズが必要です。</div></div>
+<div class="term"><div class="term-title">［SAE］</div><div class="summary">要約: WPA3パーソナルで用いられる、共有パスワードを基にした認証方式です。</div><div class="detail">詳細: PSKをそのまま利用するWPA2パーソナルより、パスワード推測攻撃に対する耐性を高めるよう設計されています。</div></div>
+<div class="term"><div class="term-title">［CCMP］</div><div class="summary">要約: AESを使って暗号化とメッセージ認証を行う無線LANの保護方式です。</div><div class="detail">詳細: 資料では暗号化にCTRモード、メッセージ認証にCBC-MACを利用すると説明されています。機密性と完全性を同時に確保する点を理解します。</div></div>
+</section>
+
+<section class="card">
+<h2>4. 理解度チェック項目</h2>
+<ul class="checklist">
+<li><input type="checkbox"><span>CSMA/CAが「衝突検出」ではなく「衝突回避」を採用する理由を、無線LANの性質と関連付けて説明できる。</span></li>
+<li><input type="checkbox"><span>DIFS・SIFS・ランダムバックオフ・ACKが、どの順序で何のために使われるか説明できる。</span></li>
+<li><input type="checkbox"><span>隠れ端末問題が発生する位置関係を説明し、RTS/CTSとNAVでなぜ衝突を減らせるか説明できる。</span></li>
+<li><input type="checkbox"><span>BSS・IBSS・ESS・SSIDの違いを、APの有無や複数AP構成と関連付けて説明できる。</span></li>
+<li><input type="checkbox"><span>OFDMとOFDMAの違いを「サブキャリアを誰がどう使うか」という観点で説明できる。</span></li>
+<li><input type="checkbox"><span>2.4GHz帯と5GHz帯の性質の違い、および5GHz帯でDFSが必要になる理由を説明できる。</span></li>
+<li><input type="checkbox"><span>フレームアグリゲーションがスループットを向上させる理由と、遅延とのトレードオフを説明できる。</span></li>
+<li><input type="checkbox"><span>企業無線LANのIEEE 802.1X認証で、端末・AP・RADIUSサーバがそれぞれ何の役割を持つか説明できる。</span></li>
+<li><input type="checkbox"><span>WPA・WPA2・WPA3の違いを、TKIP・CCMP・PSK・SAEとの関係を含めて説明できる。</span></li>
+<li><input type="checkbox"><span>CCMPが「暗号化」と「メッセージ認証」の両方を行う理由、およびCTRとCBC-MACの役割を説明できる。</span></li>
+</ul>
+</section>
+
+<p class="source">作成元：添付資料「無線LAN(セキュリティ込).pdf」（10ページ）。資料本文・図表を基礎として再構成し、資料外の一般的補足は明示しています。</p>
+</main>
+</body>
+</html>
